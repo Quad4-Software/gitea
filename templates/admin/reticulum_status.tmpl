@@ -9,6 +9,10 @@
 		<dt>{{ctx.Locale.Tr "admin.reticulum.status.rngit_version"}}</dt>
 		<dd>{{.ReticulumStatus.RngitVersion}}</dd>
 	{{end}}
+	{{if .ReticulumStatus.RNSPackageVersion}}
+		<dt>{{ctx.Locale.Tr "admin.reticulum.status.rns_version"}}</dt>
+		<dd>{{.ReticulumStatus.RNSPackageVersion}}</dd>
+	{{end}}
 	<dt>{{ctx.Locale.Tr "admin.reticulum.status.builtin_server"}}</dt>
 	<dd>{{svg (Iif .ReticulumStatus.BuiltinServer "octicon-check" "octicon-x")}}</dd>
 	<dt>{{ctx.Locale.Tr "admin.reticulum.status.builtin_running"}}</dt>

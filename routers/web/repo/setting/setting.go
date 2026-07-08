@@ -98,6 +98,8 @@ func SettingsCtxData(ctx *context.Context) {
 	}
 	ctx.Data["PushMirrors"] = pushMirrors
 
+	prepareReticulumRepoSettings(ctx)
+
 	repo_router.PrepareBranchList(ctx)
 	if ctx.Written() {
 		return
@@ -185,6 +187,10 @@ func SettingsPost(ctx *context.Context) {
 		handleSettingsPostCancelTransfer(ctx)
 	case "delete":
 		handleSettingsPostDelete(ctx)
+	case "reticulum":
+		handleSettingsPostReticulum(ctx)
+	case "reticulum-mirror-sync":
+		handleSettingsPostReticulumMirrorSync(ctx)
 	case "delete-wiki":
 		handleSettingsPostDeleteWiki(ctx)
 	case "archive":

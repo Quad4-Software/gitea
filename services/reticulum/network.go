@@ -25,6 +25,7 @@ type Status struct {
 	RngitPath            string
 	RngitAvailable       bool
 	RngitVersion         string
+	RNSPackageVersion    string
 	BuiltinServer        bool
 	BuiltinRunning       bool
 	SyncPermissions      bool
@@ -63,6 +64,9 @@ func GetStatus(ctx context.Context) *Status {
 		if out, err := exec.CommandContext(ctx, path, "--version").CombinedOutput(); err == nil {
 			status.RngitVersion = strings.TrimSpace(string(out))
 		}
+	}
+	if pkg := GetPackageInfo(ctx); pkg != nil {
+		status.RNSPackageVersion = pkg.PipVersion
 	}
 
 	if owners, err := listOwnerDirectories(); err == nil {

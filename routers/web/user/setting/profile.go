@@ -31,6 +31,7 @@ import (
 	"gitea.dev/modules/web/middleware"
 	"gitea.dev/services/context"
 	"gitea.dev/services/forms"
+	reticulum_service "gitea.dev/services/reticulum"
 	user_service "gitea.dev/services/user"
 	"gitea.dev/services/webtheme"
 )
@@ -48,6 +49,11 @@ func Profile(ctx *context.Context) {
 	ctx.Data["PageIsSettingsProfile"] = true
 	ctx.Data["AllowedUserVisibilityModes"] = setting.Service.AllowedUserVisibilityModesSlice.ToVisibleTypeSlice()
 	ctx.Data["DisableGravatar"] = setting.Config().Picture.DisableGravatar.Value(ctx)
+	if setting.Reticulum.Enabled {
+		ctx.Data["ReticulumEnabled"] = true
+		identity, _ := reticulum_service.GetUserIdentity(ctx, ctx.Doer.ID)
+		ctx.Data["ReticulumIdentity"] = identity
+	}
 
 	ctx.HTML(http.StatusOK, tplSettingsProfile)
 }
@@ -114,6 +120,14 @@ func ProfilePost(ctx *context.Context) {
 	if err := user_service.UpdateUser(ctx, ctx.Doer, opts); err != nil {
 		ctx.ServerError("UpdateUser", err)
 		return
+	}
+
+	if setting.Reticulum.Enabled {
+		if err := reticulum_service.SetUserIdentity(ctx, ctx.Doer.ID, ctx.FormTrim("reticulum_identity")); err != nil {
+			ctx.Flash.Error(ctx.Tr("settings.reticulum_identity_invalid"))
+			ctx.Redirect(setting.AppSubURL + "/user/settings")
+			return
+		}
 	}
 
 	log.Trace("User settings updated: %s", ctx.Doer.Name)

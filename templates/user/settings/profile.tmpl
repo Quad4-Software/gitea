@@ -36,12 +36,21 @@
 					<label for="website">{{ctx.Locale.Tr "settings.website"}}</label>
 					<input id="website" name="website" type="url" value="{{.SignedUser.Website}}" maxlength="255">
 				</div>
-				<div class="field">
-					<label for="location">{{ctx.Locale.Tr "settings.location"}}</label>
-					<input id="location" name="location" placeholder="{{ctx.Locale.Tr "settings.location_placeholder"}}" value="{{.SignedUser.Location}}" maxlength="50">
-				</div>
+			<div class="field">
+				<label for="location">{{ctx.Locale.Tr "settings.location"}}</label>
+				<input id="location" name="location" placeholder="{{ctx.Locale.Tr "settings.location_placeholder"}}" value="{{.SignedUser.Location}}" maxlength="50">
+			</div>
 
+			{{if .ReticulumEnabled}}
 				<div class="divider"></div>
+				<div class="field">
+					<label for="reticulum_identity">{{ctx.Locale.Tr "settings.reticulum_identity"}}</label>
+					<input id="reticulum_identity" name="reticulum_identity" value="{{.ReticulumIdentity}}" placeholder="32-character hex identity hash">
+					<span class="help">{{ctx.Locale.Tr "settings.reticulum_identity_helper"}}</span>
+				</div>
+			{{end}}
+
+			<div class="divider"></div>
 				<!-- private block -->
 
 				<div class="field" id="privacy-user-settings">

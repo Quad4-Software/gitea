@@ -783,6 +783,8 @@ func registerWebRoutes(m *web.Router, webAuth *AuthMiddleware) {
 			m.Post("/sync", admin.ReticulumSync)
 			m.Post("/restart", admin.ReticulumRestart)
 			m.Post("/resolve_hash", admin.ReticulumResolveHash)
+			m.Post("/update_rns", admin.ReticulumUpdateRNS)
+			m.Post("/mirror", admin.ReticulumMirror)
 		})
 
 		m.Group("/monitor", func() {

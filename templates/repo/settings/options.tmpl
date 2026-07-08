@@ -673,6 +673,35 @@
 			</form>
 		</div>
 
+		{{if .ReticulumEnabled}}
+			<h4 class="ui top attached header">{{ctx.Locale.Tr "repo.settings.reticulum_title"}}</h4>
+			<div class="ui attached segment">
+				<p>{{ctx.Locale.Tr "repo.settings.reticulum_desc"}}</p>
+				<form class="ui form" method="post">
+					<input type="hidden" name="action" value="reticulum">
+					<div class="field">
+						<label for="reticulum_extra_allowed">{{ctx.Locale.Tr "repo.settings.reticulum_extra_allowed"}}</label>
+						<textarea id="reticulum_extra_allowed" name="reticulum_extra_allowed" rows="4">{{.ReticulumExtraAllowed}}</textarea>
+						<span class="help">{{ctx.Locale.Tr "repo.settings.reticulum_extra_allowed_helper"}}</span>
+					</div>
+					<div class="field">
+						<label for="reticulum_mirror_source">{{ctx.Locale.Tr "repo.settings.reticulum_mirror_source"}}</label>
+						<input id="reticulum_mirror_source" name="reticulum_mirror_source" value="{{.ReticulumMirrorSource}}" placeholder="rns://06a54b.../public/MeshChatX">
+						<span class="help">{{ctx.Locale.Tr "repo.settings.reticulum_mirror_source_helper"}}</span>
+					</div>
+					<div class="flex-text-block tw-gap-2 tw-mb-4">
+						<button class="ui primary button">{{ctx.Locale.Tr "save"}}</button>
+					</div>
+				</form>
+				{{if .ReticulumMirrorSource}}
+					<form class="ui form ignore-dirty" method="post">
+						<input type="hidden" name="action" value="reticulum-mirror-sync">
+						<button class="ui button">{{ctx.Locale.Tr "repo.settings.reticulum_mirror_sync"}}</button>
+					</form>
+				{{end}}
+			</div>
+		{{end}}
+
 		<h4 class="ui top attached header">
 			{{ctx.Locale.Tr "repo.settings.signing_settings"}}
 		</h4>

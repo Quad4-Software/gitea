@@ -1,9 +1,9 @@
-{{template "admin/layout_head" (dict "pageClass" "admin reticulum")}}
+{{template "admin/layout_head" (dict "pageClass" "admin reticulum tw-pb-8")}}
 	<h4 class="ui top attached header">{{ctx.Locale.Tr "admin.reticulum.status_title"}}</h4>
 	<div class="ui attached table segment">
 		{{template "admin/reticulum_status" .}}
 		<div class="ui divider"></div>
-		<div class="flex-text-block tw-gap-2">
+		<div class="flex-text-block tw-gap-2 tw-flex-wrap tw-mb-4">
 			<form class="ui form ignore-dirty" method="post" action="{{AppSubUrl}}/-/admin/reticulum/sync">
 				{{.CsrfTokenHtml}}
 				<button class="ui button">{{ctx.Locale.Tr "admin.reticulum.sync"}}</button>
@@ -16,17 +16,51 @@
 				{{.CsrfTokenHtml}}
 				<button class="ui button">{{ctx.Locale.Tr "admin.reticulum.resolve_hash"}}</button>
 			</form>
+			<form class="ui form ignore-dirty" method="post" action="{{AppSubUrl}}/-/admin/reticulum/update_rns">
+				{{.CsrfTokenHtml}}
+				<button class="ui button">{{ctx.Locale.Tr "admin.reticulum.update_rns"}}</button>
+			</form>
 		</div>
 	</div>
 
+	<h4 class="ui top attached header">{{ctx.Locale.Tr "admin.reticulum.mirror_title"}}</h4>
+	<div class="ui attached segment tw-mb-4">
+		<p>{{ctx.Locale.Tr "admin.reticulum.mirror_desc"}}</p>
+		<form class="ui form" method="post" action="{{AppSubUrl}}/-/admin/reticulum/mirror">
+			{{.CsrfTokenHtml}}
+			<div class="three fields">
+				<div class="field">
+					<label for="mirror_owner">{{ctx.Locale.Tr "owner"}}</label>
+					<input id="mirror_owner" name="mirror_owner" placeholder="public">
+				</div>
+				<div class="field">
+					<label for="mirror_repo">{{ctx.Locale.Tr "repo.name"}}</label>
+					<input id="mirror_repo" name="mirror_repo" placeholder="MeshChatX">
+				</div>
+				<div class="field">
+					<label for="mirror_source">{{ctx.Locale.Tr "admin.reticulum.mirror_source"}}</label>
+					<input id="mirror_source" name="mirror_source" placeholder="rns://06a54b.../public/MeshChatX">
+				</div>
+			</div>
+			<div class="field">
+				<button class="ui button">{{ctx.Locale.Tr "admin.reticulum.mirror_submit"}}</button>
+			</div>
+		</form>
+	</div>
+
 	<h4 class="ui top attached header">{{ctx.Locale.Tr "admin.reticulum.console_title"}}</h4>
-	<div class="ui attached segment">
+	<div class="ui attached segment tw-mb-4">
 		<pre id="reticulum-console" class="tw-overflow-auto tw-text-xs tw-font-mono tw-whitespace-pre-wrap tw-max-h-96 tw-bg-black tw-text-green-400 tw-p-3 tw-rounded"></pre>
 		<span class="help">{{ctx.Locale.Tr "admin.reticulum.console_helper"}}</span>
 	</div>
 
+	<h4 class="ui top attached header">{{ctx.Locale.Tr "admin.reticulum.permissions_title"}}</h4>
+	<div class="ui attached segment tw-mb-4">
+		<p>{{ctx.Locale.Tr "admin.reticulum.permissions_desc"}}</p>
+	</div>
+
 	<h4 class="ui top attached header">{{ctx.Locale.Tr "admin.reticulum.settings_title"}}</h4>
-	<div class="ui attached segment">
+	<div class="ui attached segment tw-mb-8">
 		<form class="ui form" method="post" action="{{AppSubUrl}}/-/admin/reticulum">
 			{{.CsrfTokenHtml}}
 			<div class="inline field">
@@ -96,7 +130,7 @@
 				<textarea id="network_config" name="network_config" rows="18">{{.ReticulumForm.NetworkConfig}}</textarea>
 				<span class="help">{{ctx.Locale.Tr "admin.reticulum.network_config_helper"}}</span>
 			</div>
-			<div class="field">
+			<div class="field tw-mb-4">
 				<button class="ui primary button">{{ctx.Locale.Tr "save"}}</button>
 			</div>
 		</form>

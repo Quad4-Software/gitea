@@ -174,6 +174,39 @@ func ReticulumResolveHash(ctx *context.Context) {
 	ctx.Redirect(setting.AppSubURL + "/-/admin/reticulum")
 }
 
+// ReticulumUpdateRNS upgrades the RNS Python package.
+func ReticulumUpdateRNS(ctx *context.Context) {
+	output, err := reticulum_service.UpdateRNSPackage(ctx)
+	if err != nil {
+		ctx.Flash.Error(err.Error())
+		if output != "" {
+			ctx.Flash.Info(output)
+		}
+		ctx.Redirect(setting.AppSubURL + "/-/admin/reticulum")
+		return
+	}
+	ctx.Flash.Success(ctx.Tr("admin.reticulum.rns_updated"))
+	ctx.Redirect(setting.AppSubURL + "/-/admin/reticulum")
+}
+
+// ReticulumMirror creates or updates an RNS mirror repository.
+func ReticulumMirror(ctx *context.Context) {
+	owner := ctx.FormTrim("mirror_owner")
+	repoName := ctx.FormTrim("mirror_repo")
+	sourceURL := ctx.FormTrim("mirror_source")
+	if owner == "" || repoName == "" || sourceURL == "" {
+		ctx.Flash.Error(ctx.Tr("admin.reticulum.mirror_missing_fields"))
+		ctx.Redirect(setting.AppSubURL + "/-/admin/reticulum")
+		return
+	}
+	if err := reticulum_service.MirrorRepositoryFromRNS(ctx, owner, repoName, sourceURL); err != nil {
+		ctx.ServerError("MirrorRepositoryFromRNS", err)
+		return
+	}
+	ctx.Flash.Success(ctx.Tr("admin.reticulum.mirror_success", owner+"/"+repoName))
+	ctx.Redirect(setting.AppSubURL + "/-/admin/reticulum")
+}
+
 // ReticulumLogs returns rngit log lines for the admin console.
 func ReticulumLogs(ctx *context.Context) {
 	since := ctx.FormInt("since")

@@ -12,6 +12,7 @@ import (
 
 	"gitea.dev/models/db"
 	"gitea.dev/models/perm"
+	access_model "gitea.dev/models/perm/access"
 	repo_model "gitea.dev/models/repo"
 	user_model "gitea.dev/models/user"
 	"gitea.dev/modules/log"
@@ -110,10 +111,24 @@ func RemoveRepositoryPermissions(repo *repo_model.Repository) error {
 }
 
 func buildAllowedLines(ctx context.Context, repo *repo_model.Repository) ([]string, error) {
+	var lines []string
+	var err error
 	if repo.IsPrivate {
-		return buildPrivateAllowedLines(ctx, repo)
+		lines, err = buildPrivateAllowedLines(ctx, repo)
+	} else {
+		lines, err = buildPublicAllowedLines(ctx, repo)
 	}
-	return buildPublicAllowedLines(ctx, repo)
+	if err != nil {
+		return nil, err
+	}
+	extra, err := ReadExtraAllowedLines(repo)
+	if err != nil {
+		return nil, err
+	}
+	if len(extra) == 0 {
+		return lines, nil
+	}
+	return uniqueLines(append(lines, extra...)), nil
 }
 
 func buildPublicAllowedLines(ctx context.Context, repo *repo_model.Repository) ([]string, error) {
@@ -181,6 +196,20 @@ func collectIdentities(ctx context.Context, repo *repo_model.Repository, minMode
 	}
 	if ownerIdentity != "" {
 		identities[ownerIdentity] = struct{}{}
+	}
+
+	var accesses []access_model.Access
+	if err := db.GetEngine(ctx).Where("repo_id = ? AND mode >= ?", repo.ID, minMode).Find(&accesses); err != nil {
+		return nil, fmt.Errorf("list repository access for reticulum sync: %w", err)
+	}
+	for _, access := range accesses {
+		identity, err := userIdentity(ctx, access.UserID)
+		if err != nil {
+			return nil, err
+		}
+		if identity != "" {
+			identities[identity] = struct{}{}
+		}
 	}
 
 	collaborators, _, err := repo_model.GetCollaborators(ctx, &repo_model.FindCollaborationOptions{

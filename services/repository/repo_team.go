@@ -14,6 +14,7 @@ import (
 	access_model "gitea.dev/models/perm/access"
 	repo_model "gitea.dev/models/repo"
 	"gitea.dev/modules/setting"
+	reticulum_service "gitea.dev/services/reticulum"
 )
 
 // TeamAddRepository adds new repository to team of organization.
@@ -43,6 +44,8 @@ func addRepositoryToTeam(ctx context.Context, t *organization.Team, repo *repo_m
 	if err = access_model.RecalculateTeamAccesses(ctx, repo, 0); err != nil {
 		return fmt.Errorf("recalculateAccesses: %w", err)
 	}
+
+	reticulum_service.OnRepositoryUpdated(ctx, repo)
 
 	// Make all team members watch this repo if enabled in global settings
 	if setting.Service.AutoWatchNewRepos {
@@ -182,6 +185,7 @@ func removeRepositoryFromTeam(ctx context.Context, t *organization.Team, repo *r
 		if err = access_model.RecalculateTeamAccesses(ctx, repo, t.ID); err != nil {
 			return err
 		}
+		reticulum_service.OnRepositoryUpdated(ctx, repo)
 	}
 
 	teamMembers, err := organization.GetTeamMembers(ctx, &organization.SearchMembersOptions{

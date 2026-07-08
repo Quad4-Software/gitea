@@ -76,7 +76,8 @@ func ParseRemoteAddr(remoteAddr, authUsername, authPassword string) (string, err
 	// Remote address can be HTTP/HTTPS/Git URL or local path.
 	if strings.HasPrefix(remoteAddr, "http://") ||
 		strings.HasPrefix(remoteAddr, "https://") ||
-		strings.HasPrefix(remoteAddr, "git://") {
+		strings.HasPrefix(remoteAddr, "git://") ||
+		strings.HasPrefix(remoteAddr, "rns://") {
 		u, err := url.Parse(remoteAddr)
 		if err != nil {
 			return "", &ErrInvalidCloneAddr{IsURLError: true, Host: remoteAddr}

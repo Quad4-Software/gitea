@@ -30,10 +30,10 @@ import (
 	"gitea.dev/modules/log"
 	"gitea.dev/modules/optional"
 	repo_module "gitea.dev/modules/repository"
-	reticulum_module "gitea.dev/modules/reticulum"
 	"gitea.dev/modules/setting"
 	"gitea.dev/modules/util"
 	asymkey_service "gitea.dev/services/asymkey"
+	reticulum_service "gitea.dev/services/reticulum"
 
 	"github.com/editorconfig/editorconfig-core-go/v2"
 )
@@ -654,7 +654,7 @@ func repoAssignmentPrepareTemplateData(ctx *Context, data *repoAssignmentPrepare
 	}
 	ctx.Data["CloneButtonShowHTTPS"] = cloneButtonShowHTTPS
 	ctx.Data["CloneButtonShowSSH"] = cloneButtonShowSSH
-	ctx.Data["CloneButtonShowRNS"] = reticulum_module.Enabled()
+	ctx.Data["CloneButtonShowRNS"] = reticulum_service.CanShowCloneURL(ctx, ctx.Doer, repo)
 	ctx.Data["CloneButtonOriginLink"] = ctx.Data["RepoCloneLink"] // it may be rewritten to the WikiCloneLink by the router middleware
 
 	ctx.Data["RepoSearchEnabled"] = setting.Indexer.RepoIndexerEnabled
