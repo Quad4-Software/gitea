@@ -25,6 +25,8 @@ type AdminReticulumForm struct {
 	PublicRead           bool
 	PublicWrite          bool
 	ServeNomadNet        bool
+	ShowReticulumThanks  bool
+	SyncReticulumThanks  bool
 	NodeName             string `binding:"MaxSize(128)"`
 	NetworkConfig        string
 }

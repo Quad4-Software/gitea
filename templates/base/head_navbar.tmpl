@@ -149,6 +149,7 @@
 				<span class="tw-ml-1">{{ctx.Locale.Tr "sign_in"}}</span>
 			</a>
 		{{end}}
+		{{template "base/head_navbar_nojs" .}}
 	</div><!-- end full right menu -->
 
 	{{$activeStopwatch := and .PageGlobalData (call .PageGlobalData.GetActiveStopwatch)}}

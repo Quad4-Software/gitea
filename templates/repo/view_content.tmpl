@@ -70,6 +70,15 @@
 					{{$addFilePath = ""}}
 				{{end}}
 			{{end}}
+			<noscript>
+				<span class="nojs-add-file-links">
+					<a class="ui compact basic button" href="{{.RepoLink}}/_new/{{.BranchName | PathEscapeSegments}}/{{$addFilePath | PathEscapeSegments}}">{{ctx.Locale.Tr "repo.editor.new_file"}}</a>
+					{{if .RepositoryUploadEnabled}}
+						<a class="ui compact basic button" href="{{.RepoLink}}/_upload/{{.BranchName | PathEscapeSegments}}/{{$addFilePath | PathEscapeSegments}}">{{ctx.Locale.Tr "repo.editor.upload_file"}}</a>
+					{{end}}
+					<a class="ui compact basic button" href="{{.RepoLink}}/_diffpatch/{{.BranchName | PathEscapeSegments}}/{{$addFilePath | PathEscapeSegments}}">{{ctx.Locale.Tr "repo.editor.patch"}}</a>
+				</span>
+			</noscript>
 			<button class="ui dropdown basic compact jump button repo-add-file" {{if not .Repository.CanEnableEditor}}disabled{{end}}>
 				{{ctx.Locale.Tr "repo.editor.add_file"}}
 				{{svg "octicon-triangle-down" 14 "dropdown icon"}}

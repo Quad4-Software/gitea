@@ -205,6 +205,7 @@ func Contexter() func(next http.Handler) http.Handler {
 			// FIXME: do we really always need these setting? There should be someway to have to avoid having to always set these
 			ctx.Data["DisableMigrations"] = setting.Repository.DisableMigrations
 			ctx.Data["DisableStars"] = setting.Repository.DisableStars
+			ctx.Data["ShowReticulumThanks"] = setting.Reticulum.Enabled && setting.Reticulum.ShowReticulumThanks
 			ctx.Data["EnableActions"] = setting.Actions.Enabled && !unit.TypeActions.UnitGlobalDisabled()
 
 			ctx.Data["AllLangs"] = translation.AllLangs()

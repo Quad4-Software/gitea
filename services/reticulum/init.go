@@ -49,6 +49,14 @@ func Init(ctx context.Context) error {
 		return fmt.Errorf("sync reticulum permissions: %w", err)
 	}
 
+	if setting.Reticulum.SyncReticulumThanks {
+		if updated, err := SyncAllRepositoryThanks(ctx); err != nil {
+			log.Warn("Reticulum: initial thanks sync: %v", err)
+		} else if updated > 0 {
+			log.Info("Reticulum: synchronized thanks counts for %d repositories", updated)
+		}
+	}
+
 	if setting.Reticulum.StartBuiltinServer {
 		registerProcessContext(ctx)
 		initBuiltinShutdown()

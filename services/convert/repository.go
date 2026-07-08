@@ -16,6 +16,7 @@ import (
 	"gitea.dev/modules/log"
 	api "gitea.dev/modules/structs"
 	"gitea.dev/modules/util"
+	reticulum_service "gitea.dev/services/reticulum"
 )
 
 // ToRepo converts a Repository to api.Repository
@@ -216,6 +217,7 @@ func innerToRepo(ctx context.Context, repo *repo_model.Repository, permissionInR
 		Language:                      language,
 		LanguagesURL:                  repoAPIURL + "/languages",
 		Stars:                         repo.NumStars,
+		ReticulumThanks:               reticulum_service.RepositoryThanksCount(repo),
 		Forks:                         repo.NumForks,
 		Watchers:                      repo.NumWatches,
 		BranchCount:                   int(branchCount),

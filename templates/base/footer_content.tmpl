@@ -22,6 +22,13 @@
 		{{if $.ViteModeIsDev}}<span class="ui basic label primary">ViteDevMode</span>{{end}}
 	</div>
 	<div class="right-links" role="group" aria-label="{{ctx.Locale.Tr "aria.footer.links"}}">
+		<noscript>
+			<div class="nojs-footer-links">
+				{{range .AllLangs -}}
+					<a lang="{{.Lang}}" href="{{AppSubUrl}}/?lang={{.Lang}}">{{.Name}}</a>
+				{{end -}}
+			</div>
+		</noscript>
 		<div class="ui dropdown custom" id="footer-theme-selector">
 			<span class="default-text">{{ctx.RenderUtils.RenderThemeItem ctx.CurrentWebTheme 16}}</span>
 			<div class="menu theme-menu"></div>

@@ -81,6 +81,7 @@ type Repository struct {
 	OriginalURL         string      `json:"original_url"`
 	Website             string      `json:"website"`
 	Stars               int         `json:"stars_count"`
+	ReticulumThanks     int         `json:"reticulum_thanks_count,omitempty"`
 	Forks               int         `json:"forks_count"`
 	Watchers            int         `json:"watchers_count"`
 	BranchCount         int         `json:"branch_count"`

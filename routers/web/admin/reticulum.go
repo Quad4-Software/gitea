@@ -51,6 +51,8 @@ func Reticulum(ctx *context.Context) {
 		PublicRead:           settings.PublicRead,
 		PublicWrite:          settings.PublicWrite,
 		ServeNomadNet:        settings.ServeNomadNet,
+		ShowReticulumThanks:  settings.ShowReticulumThanks,
+		SyncReticulumThanks:  settings.SyncReticulumThanks,
 		NodeName:             settings.NodeName,
 		NetworkConfig:        networkConfig,
 	}
@@ -74,6 +76,8 @@ func ReticulumPost(ctx *context.Context) {
 		PublicRead:           ctx.FormBool("public_read"),
 		PublicWrite:          ctx.FormBool("public_write"),
 		ServeNomadNet:        ctx.FormBool("serve_nomadnet"),
+		ShowReticulumThanks:  ctx.FormBool("show_reticulum_thanks"),
+		SyncReticulumThanks:  ctx.FormBool("sync_reticulum_thanks"),
 		NodeName:             form.NodeName,
 	}
 	if settings.ConfigPath == "" {
@@ -128,6 +132,10 @@ func ReticulumSync(ctx *context.Context) {
 	}
 	if err := reticulum_service.SyncAllRepositoryPermissions(ctx); err != nil {
 		ctx.ServerError("SyncAllRepositoryPermissions", err)
+		return
+	}
+	if _, err := reticulum_service.SyncAllRepositoryThanks(ctx); err != nil {
+		ctx.ServerError("SyncAllRepositoryThanks", err)
 		return
 	}
 	if err := reticulum_service.RestartBuiltinServer(ctx); err != nil {

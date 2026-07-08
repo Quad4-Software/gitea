@@ -104,6 +104,18 @@
 					{{ctx.Locale.Tr "admin.reticulum.serve_nomadnet"}}
 				</label>
 			</div>
+			<div class="inline field">
+				<label class="gt-checkbox">
+					<input name="show_reticulum_thanks" type="checkbox" value="true" {{if .ReticulumForm.ShowReticulumThanks}}checked{{end}}>
+					{{ctx.Locale.Tr "admin.reticulum.show_reticulum_thanks"}}
+				</label>
+			</div>
+			<div class="inline field">
+				<label class="gt-checkbox">
+					<input name="sync_reticulum_thanks" type="checkbox" value="true" {{if .ReticulumForm.SyncReticulumThanks}}checked{{end}}>
+					{{ctx.Locale.Tr "admin.reticulum.sync_reticulum_thanks"}}
+				</label>
+			</div>
 			<div class="field">
 				<label for="destination_hash">{{ctx.Locale.Tr "admin.reticulum.destination_hash"}}</label>
 				<input id="destination_hash" name="destination_hash" value="{{.ReticulumForm.DestinationHash}}">

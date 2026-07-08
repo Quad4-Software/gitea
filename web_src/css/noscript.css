@@ -14,37 +14,67 @@ html:not(.js-enabled) #dashboard-repo-list {
 }
 
 html:not(.js-enabled) .nojs-repo-list,
+html:not(.js-enabled) .nojs-clone-urls,
+html:not(.js-enabled) .nojs-navbar-links,
+html:not(.js-enabled) .nojs-footer-links,
+html:not(.js-enabled) .nojs-add-file-links {
+  display: flex !important;
+}
+
+.nojs-repo-list,
+.nojs-clone-urls,
+.nojs-navbar-links,
+.nojs-footer-links,
+.nojs-add-file-links {
+  display: none;
+}
+
+html:not(.js-enabled) .nojs-repo-list {
+  display: block !important;
+}
+
 html:not(.js-enabled) .nojs-clone-urls {
   display: block !important;
 }
 
-.nojs-repo-list,
-.nojs-clone-urls {
-  display: none;
-}
-
+/* Never expand JS dropdown menus into the page flow */
 html:not(.js-enabled) .ui.dropdown .menu {
-  display: block !important;
-  position: static;
-  box-shadow: none;
-  border: 1px solid var(--color-secondary);
-  border-radius: var(--border-radius, 0.28571429rem);
-  margin-top: 0.25rem;
-  margin-bottom: 0.5rem;
-  min-width: 0;
+  display: none !important;
 }
 
-html:not(.js-enabled) .ui.dropdown > .dropdown.icon {
-  display: none;
-}
-
-html:not(.js-enabled) .ui.dropdown.jump > .text,
-html:not(.js-enabled) .ui.dropdown.jump > .icon:not(.dropdown) {
-  display: inline;
+html:not(.js-enabled) .ui.dropdown.jump,
+html:not(.js-enabled) #footer-theme-selector,
+html:not(.js-enabled) .page-footer .ui.dropdown.upward {
+  display: none !important;
 }
 
 html:not(.js-enabled) .clone-panel-popup {
   display: none !important;
+}
+
+html:not(.js-enabled) .repo-file-search-container {
+  display: none !important;
+}
+
+html:not(.js-enabled) #navbar-expand-toggle {
+  display: none !important;
+}
+
+@media (max-width: 767.98px) {
+  html:not(.js-enabled) #navbar .navbar-left > .item,
+  html:not(.js-enabled) #navbar .navbar-right > .item,
+  html:not(.js-enabled) #navbar .nojs-navbar-links > .item {
+    display: flex !important;
+  }
+
+  html:not(.js-enabled) #navbar .navbar-left,
+  html:not(.js-enabled) #navbar .navbar-right {
+    flex-wrap: wrap;
+  }
+
+  html:not(.js-enabled) #navbar {
+    flex-wrap: wrap;
+  }
 }
 
 .nojs-clone-url-list {
@@ -87,19 +117,33 @@ html:not(.js-enabled) .repo-button-row-right .nojs-clone-urls {
   order: 10;
 }
 
-html:not(.js-enabled) .repo-file-search-container {
-  display: none !important;
+.nojs-navbar-links {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
 }
 
-html:not(.js-enabled) details.item > .menu {
-  display: block;
+.nojs-navbar-links > .item {
+  align-items: center;
+  padding: 3px 10px;
+  text-decoration: none;
+  color: var(--color-nav-text);
+  border-radius: 4px;
+  min-height: 36px;
 }
 
-html:not(.js-enabled) details.item > summary {
-  cursor: default;
-  list-style: none;
+.nojs-navbar-links > .item:hover {
+  background: var(--color-nav-hover-bg);
 }
 
-html:not(.js-enabled) details.item > summary::-webkit-details-marker {
-  display: none;
+.nojs-footer-links {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nojs-add-file-links {
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
 }

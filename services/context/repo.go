@@ -667,6 +667,11 @@ func repoAssignmentPrepareTemplateData(ctx *Context, data *repoAssignmentPrepare
 		ctx.Data["IsStaringRepo"] = repo_model.IsStaring(ctx, ctx.Doer.ID, repo.ID)
 	}
 
+	if reticulum_service.ShowReticulumThanks() {
+		ctx.Data["ShowReticulumThanks"] = true
+		ctx.Data["ReticulumThanks"] = reticulum_service.RefreshRepositoryThanks(ctx, repo)
+	}
+
 	if repo.IsFork {
 		RetrieveBaseRepo(ctx, repo)
 		if ctx.Written() {

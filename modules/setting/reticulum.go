@@ -22,18 +22,22 @@ var Reticulum = struct {
 	PublicRead           bool   `ini:"PUBLIC_READ"`
 	PublicWrite          bool   `ini:"PUBLIC_WRITE"`
 	ServeNomadNet        bool   `ini:"SERVE_NOMADNET"`
+	ShowReticulumThanks  bool   `ini:"SHOW_RETICULUM_THANKS"`
+	SyncReticulumThanks  bool   `ini:"SYNC_RETICULUM_THANKS"`
 	NodeName             string `ini:"NODE_NAME"`
 }{
-	Enabled:            false,
-	ConfigPath:         "",
-	RNSConfigPath:      "",
-	RngitPath:          "rngit",
-	StartBuiltinServer: false,
-	SyncPermissions:    true,
-	PublicRead:         true,
-	PublicWrite:        false,
-	ServeNomadNet:      false,
-	NodeName:           "Gitea",
+	Enabled:             false,
+	ConfigPath:          "",
+	RNSConfigPath:       "",
+	RngitPath:           "rngit",
+	StartBuiltinServer:  false,
+	SyncPermissions:     true,
+	PublicRead:          true,
+	PublicWrite:         false,
+	ServeNomadNet:       false,
+	ShowReticulumThanks: true,
+	SyncReticulumThanks: true,
+	NodeName:            "Gitea",
 }
 
 func loadReticulumFrom(rootCfg ConfigProvider) {

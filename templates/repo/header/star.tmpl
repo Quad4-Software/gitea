@@ -27,3 +27,12 @@
 		{{CountFmt .Repository.NumStars}}
 	</a>
 </div>
+{{if $.ShowReticulumThanks}}
+<div class="ui labeled button" data-tooltip-content="{{ctx.Locale.Tr "repo.reticulum_thanks_tooltip"}}">
+	<span class="ui compact small basic button" aria-label="{{ctx.Locale.Tr "repo.reticulum_thanks"}}">
+		{{svg "octicon-heart"}}
+		<span class="not-mobile" aria-hidden="true">{{ctx.Locale.Tr "repo.reticulum_thanks"}}</span>
+	</span>
+	<span class="ui basic label">{{CountFmt $.ReticulumThanks}}</span>
+</div>
+{{end}}

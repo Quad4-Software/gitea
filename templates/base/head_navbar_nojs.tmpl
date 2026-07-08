@@ -1,0 +1,21 @@
+<noscript>
+	<div class="nojs-navbar-links">
+		{{if and .IsSigned .MustChangePassword}}
+			<a class="item" href="{{AppSubUrl}}/user/logout">{{ctx.Locale.Tr "sign_out"}}</a>
+		{{else if .IsSigned}}
+			<a class="item" href="{{AppSubUrl}}/repo/create">{{ctx.Locale.Tr "new_repo"}}</a>
+			{{if not .DisableMigrations}}
+				<a class="item" href="{{AppSubUrl}}/repo/migrate">{{ctx.Locale.Tr "new_migrate"}}</a>
+			{{end}}
+			{{if .SignedUser.CanCreateOrganization}}
+				<a class="item" href="{{AppSubUrl}}/org/create">{{ctx.Locale.Tr "new_org"}}</a>
+			{{end}}
+			<a class="item" href="{{.SignedUser.HomeLink}}">{{ctx.Locale.Tr "your_profile"}}</a>
+			<a class="item" href="{{AppSubUrl}}/user/settings">{{ctx.Locale.Tr "your_settings"}}</a>
+			{{if .IsAdmin}}
+				<a class="item" href="{{AppSubUrl}}/-/admin">{{ctx.Locale.Tr "admin_panel"}}</a>
+			{{end}}
+			<a class="item" href="{{AppSubUrl}}/user/logout">{{ctx.Locale.Tr "sign_out"}}</a>
+		{{end}}
+	</div>
+</noscript>

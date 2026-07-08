@@ -169,6 +169,7 @@ type Repository struct {
 
 	NumWatches          int
 	NumStars            int
+	NumReticulumThanks  int
 	NumForks            int
 	NumIssues           int
 	NumClosedIssues     int

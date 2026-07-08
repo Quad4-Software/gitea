@@ -22,6 +22,8 @@ type Settings struct {
 	PublicRead           bool   `ini:"PUBLIC_READ"`
 	PublicWrite          bool   `ini:"PUBLIC_WRITE"`
 	ServeNomadNet        bool   `ini:"SERVE_NOMADNET"`
+	ShowReticulumThanks  bool   `ini:"SHOW_RETICULUM_THANKS"`
+	SyncReticulumThanks  bool   `ini:"SYNC_RETICULUM_THANKS"`
 	NodeName             string `ini:"NODE_NAME"`
 }
 
@@ -39,6 +41,8 @@ func CurrentSettings() Settings {
 		PublicRead:           setting.Reticulum.PublicRead,
 		PublicWrite:          setting.Reticulum.PublicWrite,
 		ServeNomadNet:        setting.Reticulum.ServeNomadNet,
+		ShowReticulumThanks:  setting.Reticulum.ShowReticulumThanks,
+		SyncReticulumThanks:  setting.Reticulum.SyncReticulumThanks,
 		NodeName:             setting.Reticulum.NodeName,
 	}
 }
@@ -63,6 +67,8 @@ func ApplySettingsToProvider(cfg setting.ConfigProvider, s Settings) {
 	sec.Key("PUBLIC_READ").SetValue(strconv.FormatBool(s.PublicRead))
 	sec.Key("PUBLIC_WRITE").SetValue(strconv.FormatBool(s.PublicWrite))
 	sec.Key("SERVE_NOMADNET").SetValue(strconv.FormatBool(s.ServeNomadNet))
+	sec.Key("SHOW_RETICULUM_THANKS").SetValue(strconv.FormatBool(s.ShowReticulumThanks))
+	sec.Key("SYNC_RETICULUM_THANKS").SetValue(strconv.FormatBool(s.SyncReticulumThanks))
 	if s.NodeName != "" {
 		sec.Key("NODE_NAME").SetValue(s.NodeName)
 	}
@@ -97,6 +103,8 @@ func ApplySettingsToRuntime(s Settings) {
 	setting.Reticulum.PublicRead = s.PublicRead
 	setting.Reticulum.PublicWrite = s.PublicWrite
 	setting.Reticulum.ServeNomadNet = s.ServeNomadNet
+	setting.Reticulum.ShowReticulumThanks = s.ShowReticulumThanks
+	setting.Reticulum.SyncReticulumThanks = s.SyncReticulumThanks
 	if s.NodeName != "" {
 		setting.Reticulum.NodeName = s.NodeName
 	}
