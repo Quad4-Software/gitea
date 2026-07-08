@@ -169,7 +169,7 @@ type Repository struct {
 
 	NumWatches          int
 	NumStars            int
-	NumReticulumThanks  int
+	NumReticulumThanks  int `xorm:"NOT NULL DEFAULT 0"`
 	NumForks            int
 	NumIssues           int
 	NumClosedIssues     int
