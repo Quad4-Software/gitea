@@ -10,6 +10,7 @@ concurrency:
 
 jobs:
   nightly-binary:
+    if: github.repository == 'go-gitea/gitea'
     runs-on: namespace-profile-gitea-release-binary
     permissions:
       contents: read
@@ -69,6 +70,7 @@ jobs:
           aws s3 sync dist/release "s3://$AWS_S3_BUCKET/gitea/$BRANCH" --no-progress
 
   nightly-container:
+    if: github.repository == 'go-gitea/gitea'
     runs-on: namespace-profile-gitea-release-docker
     permissions:
       contents: read
