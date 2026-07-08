@@ -19,6 +19,7 @@ import (
 	"gitea.dev/modules/util"
 	"gitea.dev/services/context"
 	"gitea.dev/services/mailer"
+	reticulum_service "gitea.dev/services/reticulum"
 
 	"gitea.com/go-chi/session"
 )
@@ -112,6 +113,8 @@ func Config(ctx *context.Context) {
 	ctx.Data["SessionConfig"] = sessionCfg
 
 	ctx.Data["Git"] = setting.Git
+	ctx.Data["Reticulum"] = setting.Reticulum
+	ctx.Data["ReticulumStatus"] = reticulum_service.GetStatus(ctx)
 	ctx.Data["AccessLogTemplate"] = setting.Log.AccessLogTemplate
 	ctx.Data["LogSQL"] = setting.Database.LogSQL
 

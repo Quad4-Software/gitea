@@ -52,6 +52,7 @@ import (
 	release_service "gitea.dev/services/release"
 	repo_service "gitea.dev/services/repository"
 	"gitea.dev/services/repository/archiver"
+	reticulum_service "gitea.dev/services/reticulum"
 	"gitea.dev/services/task"
 	"gitea.dev/services/uinotification"
 	"gitea.dev/services/webhook"
@@ -161,6 +162,8 @@ func InitWebInstalled(ctx context.Context) {
 	mustInitCtx(ctx, syncAppConfForGit)
 
 	mustInit(ssh.Init)
+
+	mustInitCtx(ctx, reticulum_service.Init)
 
 	auth.Init()
 	mustInit(svg.Init)

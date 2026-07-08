@@ -775,6 +775,16 @@ func registerWebRoutes(m *web.Router, webAuth *AuthMiddleware) {
 			m.Get("/settings", admin.ConfigSettings)
 		})
 
+		m.Group("/reticulum", func() {
+			m.Get("", admin.Reticulum)
+			m.Post("", web.Bind(forms.AdminReticulumForm{}), admin.ReticulumPost)
+			m.Get("/status", admin.ReticulumStatus)
+			m.Get("/logs", admin.ReticulumLogs)
+			m.Post("/sync", admin.ReticulumSync)
+			m.Post("/restart", admin.ReticulumRestart)
+			m.Post("/resolve_hash", admin.ReticulumResolveHash)
+		})
+
 		m.Group("/monitor", func() {
 			m.Get("/stats", admin.MonitorStats)
 			m.Get("/cron", admin.CronTasks)

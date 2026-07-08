@@ -233,6 +233,7 @@ func LoadSettings() {
 	loadProjectFrom(CfgProvider)
 	loadMimeTypeMapFrom(CfgProvider)
 	loadFederationFrom(CfgProvider)
+	loadReticulumFrom(CfgProvider)
 }
 
 // LoadSettingsForInstall initializes the settings for install

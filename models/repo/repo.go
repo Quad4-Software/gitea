@@ -28,6 +28,7 @@ import (
 	"gitea.dev/modules/log"
 	"gitea.dev/modules/markup"
 	"gitea.dev/modules/optional"
+	reticulum_module "gitea.dev/modules/reticulum"
 	"gitea.dev/modules/setting"
 	api "gitea.dev/modules/structs"
 	"gitea.dev/modules/timeutil"
@@ -650,6 +651,7 @@ type CloneLink struct {
 	SSH   string
 	HTTPS string
 	Tea   string
+	RNS   string
 }
 
 // ComposeHTTPSCloneURL returns HTTPS clone URL based on the given owner and repository name.
@@ -697,11 +699,15 @@ func ComposeTeaCloneCommand(ctx context.Context, owner, repo string) string {
 }
 
 func (repo *Repository) cloneLink(ctx context.Context, doer *user_model.User, repoPathName string) *CloneLink {
-	return &CloneLink{
+	link := &CloneLink{
 		SSH:   ComposeSSHCloneURL(doer, repo.OwnerName, repoPathName),
 		HTTPS: ComposeHTTPSCloneURL(ctx, repo.OwnerName, repoPathName),
 		Tea:   ComposeTeaCloneCommand(ctx, repo.OwnerName, repoPathName),
 	}
+	if reticulum_module.Enabled() {
+		link.RNS = reticulum_module.ComposeCloneURL(repo.OwnerName, repoPathName)
+	}
+	return link
 }
 
 // CloneLink returns clone URLs of repository.

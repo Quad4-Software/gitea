@@ -1,0 +1,104 @@
+{{template "admin/layout_head" (dict "pageClass" "admin reticulum")}}
+	<h4 class="ui top attached header">{{ctx.Locale.Tr "admin.reticulum.status_title"}}</h4>
+	<div class="ui attached table segment">
+		{{template "admin/reticulum_status" .}}
+		<div class="ui divider"></div>
+		<div class="flex-text-block tw-gap-2">
+			<form class="ui form ignore-dirty" method="post" action="{{AppSubUrl}}/-/admin/reticulum/sync">
+				{{.CsrfTokenHtml}}
+				<button class="ui button">{{ctx.Locale.Tr "admin.reticulum.sync"}}</button>
+			</form>
+			<form class="ui form ignore-dirty" method="post" action="{{AppSubUrl}}/-/admin/reticulum/restart">
+				{{.CsrfTokenHtml}}
+				<button class="ui button">{{ctx.Locale.Tr "admin.reticulum.restart"}}</button>
+			</form>
+			<form class="ui form ignore-dirty" method="post" action="{{AppSubUrl}}/-/admin/reticulum/resolve_hash">
+				{{.CsrfTokenHtml}}
+				<button class="ui button">{{ctx.Locale.Tr "admin.reticulum.resolve_hash"}}</button>
+			</form>
+		</div>
+	</div>
+
+	<h4 class="ui top attached header">{{ctx.Locale.Tr "admin.reticulum.console_title"}}</h4>
+	<div class="ui attached segment">
+		<pre id="reticulum-console" class="tw-overflow-auto tw-text-xs tw-font-mono tw-whitespace-pre-wrap tw-max-h-96 tw-bg-black tw-text-green-400 tw-p-3 tw-rounded"></pre>
+		<span class="help">{{ctx.Locale.Tr "admin.reticulum.console_helper"}}</span>
+	</div>
+
+	<h4 class="ui top attached header">{{ctx.Locale.Tr "admin.reticulum.settings_title"}}</h4>
+	<div class="ui attached segment">
+		<form class="ui form" method="post" action="{{AppSubUrl}}/-/admin/reticulum">
+			{{.CsrfTokenHtml}}
+			<div class="inline field">
+				<div class="ui checkbox">
+					<label>{{ctx.Locale.Tr "admin.reticulum.enabled"}}</label>
+					<input name="enabled" type="checkbox" value="true" {{if .ReticulumForm.Enabled}}checked{{end}}>
+				</div>
+			</div>
+			<div class="inline field">
+				<div class="ui checkbox">
+					<label>{{ctx.Locale.Tr "admin.reticulum.start_builtin_server"}}</label>
+					<input name="start_builtin_server" type="checkbox" value="true" {{if .ReticulumForm.StartBuiltinServer}}checked{{end}}>
+				</div>
+			</div>
+			<div class="inline field">
+				<div class="ui checkbox">
+					<label>{{ctx.Locale.Tr "admin.reticulum.sync_permissions"}}</label>
+					<input name="sync_permissions" type="checkbox" value="true" {{if .ReticulumForm.SyncPermissions}}checked{{end}}>
+				</div>
+			</div>
+			<div class="inline field">
+				<div class="ui checkbox">
+					<label>{{ctx.Locale.Tr "admin.reticulum.public_read"}}</label>
+					<input name="public_read" type="checkbox" value="true" {{if .ReticulumForm.PublicRead}}checked{{end}}>
+				</div>
+			</div>
+			<div class="inline field">
+				<div class="ui checkbox">
+					<label>{{ctx.Locale.Tr "admin.reticulum.public_write"}}</label>
+					<input name="public_write" type="checkbox" value="true" {{if .ReticulumForm.PublicWrite}}checked{{end}}>
+				</div>
+			</div>
+			<div class="inline field">
+				<div class="ui checkbox">
+					<label>{{ctx.Locale.Tr "admin.reticulum.serve_nomadnet"}}</label>
+					<input name="serve_nomadnet" type="checkbox" value="true" {{if .ReticulumForm.ServeNomadNet}}checked{{end}}>
+				</div>
+			</div>
+			<div class="field">
+				<label for="destination_hash">{{ctx.Locale.Tr "admin.reticulum.destination_hash"}}</label>
+				<input id="destination_hash" name="destination_hash" value="{{.ReticulumForm.DestinationHash}}">
+				<span class="help">{{ctx.Locale.Tr "admin.reticulum.destination_hash_helper"}}</span>
+			</div>
+			<div class="field">
+				<label for="nomad_destination_hash">{{ctx.Locale.Tr "admin.reticulum.nomad_destination_hash"}}</label>
+				<input id="nomad_destination_hash" name="nomad_destination_hash" value="{{.ReticulumForm.NomadDestinationHash}}">
+				<span class="help">{{ctx.Locale.Tr "admin.reticulum.nomad_destination_hash_helper"}}</span>
+			</div>
+			<div class="field">
+				<label for="node_name">{{ctx.Locale.Tr "admin.reticulum.node_name"}}</label>
+				<input id="node_name" name="node_name" value="{{.ReticulumForm.NodeName}}">
+			</div>
+			<div class="field">
+				<label for="rngit_path">{{ctx.Locale.Tr "admin.reticulum.rngit_path"}}</label>
+				<input id="rngit_path" name="rngit_path" value="{{.ReticulumForm.RngitPath}}">
+			</div>
+			<div class="field">
+				<label for="config_path">{{ctx.Locale.Tr "admin.reticulum.config_path"}}</label>
+				<input id="config_path" name="config_path" value="{{.ReticulumForm.ConfigPath}}">
+			</div>
+			<div class="field">
+				<label for="rns_config_path">{{ctx.Locale.Tr "admin.reticulum.rns_config_path"}}</label>
+				<input id="rns_config_path" name="rns_config_path" value="{{.ReticulumForm.RNSConfigPath}}">
+			</div>
+			<div class="field">
+				<label for="network_config">{{ctx.Locale.Tr "admin.reticulum.network_config"}}</label>
+				<textarea id="network_config" name="network_config" rows="18">{{.ReticulumForm.NetworkConfig}}</textarea>
+				<span class="help">{{ctx.Locale.Tr "admin.reticulum.network_config_helper"}}</span>
+			</div>
+			<div class="field">
+				<button class="ui primary button">{{ctx.Locale.Tr "save"}}</button>
+			</div>
+		</form>
+	</div>
+{{template "admin/layout_footer" .}}

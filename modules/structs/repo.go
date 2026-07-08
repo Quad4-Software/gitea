@@ -77,6 +77,7 @@ type Repository struct {
 	Link                string      `json:"link"`
 	SSHURL              string      `json:"ssh_url"`
 	CloneURL            string      `json:"clone_url"`
+	RNSURL              string      `json:"rns_url,omitempty"`
 	OriginalURL         string      `json:"original_url"`
 	Website             string      `json:"website"`
 	Stars               int         `json:"stars_count"`

@@ -1,0 +1,30 @@
+<dl class="admin-dl-horizontal" data-fetch-url="{{AppSubUrl}}/-/admin/reticulum/status" data-fetch-sync="$morph" data-fetch-trigger="every 5s">
+	<dt>{{ctx.Locale.Tr "admin.reticulum.status.enabled"}}</dt>
+	<dd>{{svg (Iif .ReticulumStatus.Enabled "octicon-check" "octicon-x")}}</dd>
+	<dt>{{ctx.Locale.Tr "admin.reticulum.status.clone_urls"}}</dt>
+	<dd>{{svg (Iif .ReticulumStatus.CloneURLsAvailable "octicon-check" "octicon-x")}}</dd>
+	<dt>{{ctx.Locale.Tr "admin.reticulum.status.rngit_available"}}</dt>
+	<dd>{{svg (Iif .ReticulumStatus.RngitAvailable "octicon-check" "octicon-x")}}</dd>
+	{{if .ReticulumStatus.RngitVersion}}
+		<dt>{{ctx.Locale.Tr "admin.reticulum.status.rngit_version"}}</dt>
+		<dd>{{.ReticulumStatus.RngitVersion}}</dd>
+	{{end}}
+	<dt>{{ctx.Locale.Tr "admin.reticulum.status.builtin_server"}}</dt>
+	<dd>{{svg (Iif .ReticulumStatus.BuiltinServer "octicon-check" "octicon-x")}}</dd>
+	<dt>{{ctx.Locale.Tr "admin.reticulum.status.builtin_running"}}</dt>
+	<dd>{{svg (Iif .ReticulumStatus.BuiltinRunning "octicon-check" "octicon-x")}}</dd>
+	<dt>{{ctx.Locale.Tr "admin.reticulum.status.destination_hash"}}</dt>
+	<dd>{{if .ReticulumStatus.DestinationHash}}<code>{{.ReticulumStatus.DestinationHash}}</code>{{else}}-{{end}}</dd>
+	{{if .ReticulumStatus.ServeNomadNet}}
+		<dt>{{ctx.Locale.Tr "admin.reticulum.status.nomad_destination_hash"}}</dt>
+		<dd>{{if .ReticulumStatus.NomadDestinationHash}}<code>{{.ReticulumStatus.NomadDestinationHash}}</code>{{else}}-{{end}}</dd>
+	{{end}}
+	<dt>{{ctx.Locale.Tr "admin.reticulum.status.owner_groups"}}</dt>
+	<dd>{{.ReticulumStatus.OwnerGroupCount}}</dd>
+	<dt>{{ctx.Locale.Tr "admin.reticulum.status.network_config"}}</dt>
+	<dd>{{svg (Iif .ReticulumStatus.NetworkConfigExists "octicon-check" "octicon-x")}}</dd>
+	<dt>{{ctx.Locale.Tr "admin.reticulum.status.rns_config_path"}}</dt>
+	<dd><code>{{.ReticulumStatus.RNSConfigPath}}</code></dd>
+	<dt>{{ctx.Locale.Tr "admin.reticulum.status.rngit_config_path"}}</dt>
+	<dd><code>{{.ReticulumStatus.ConfigPath}}</code></dd>
+</dl>

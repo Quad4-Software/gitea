@@ -18,6 +18,7 @@ import (
 	"gitea.dev/services/context"
 	"gitea.dev/services/mailer"
 	repo_service "gitea.dev/services/repository"
+	reticulum_service "gitea.dev/services/reticulum"
 )
 
 // Collaboration render a repository's collaboration page
@@ -124,7 +125,9 @@ func ChangeCollaborationAccessMode(ctx *context.Context) {
 		ctx.FormInt64("uid"),
 		perm.AccessMode(ctx.FormInt("mode"))); err != nil {
 		log.Error("ChangeCollaborationAccessMode: %v", err)
+		return
 	}
+	reticulum_service.OnCollaborationUpdated(ctx, ctx.Repo.Repository)
 }
 
 // DeleteCollaboration delete a collaboration for a repository
@@ -141,6 +144,7 @@ func DeleteCollaboration(ctx *context.Context) {
 			ctx.Flash.Error("DeleteCollaboration: " + err.Error())
 		} else {
 			ctx.Flash.Success(ctx.Tr("repo.settings.remove_collaborator_success"))
+			reticulum_service.OnCollaborationUpdated(ctx, ctx.Repo.Repository)
 		}
 	}
 

@@ -56,15 +56,19 @@ function initCloneSchemeUrlSelection(parent: Element) {
 
   const tabHttps = parent.querySelector('.repo-clone-https');
   const tabSsh = parent.querySelector('.repo-clone-ssh');
+  const tabRns = parent.querySelector('.repo-clone-rns');
   const tabTea = parent.querySelector('.repo-clone-tea');
   const updateClonePanelUi = function() {
     let scheme = localUserSettings.getString('repo-clone-protocol');
-    if (!['https', 'ssh', 'tea'].includes(scheme)) {
+    if (!['https', 'ssh', 'rns', 'tea'].includes(scheme)) {
       scheme = 'https';
     }
 
     // Fallbacks if the scheme preference is not available in the tabs, for example: empty repo page, there are only HTTPS and SSH
     if (scheme === 'tea' && !tabTea) {
+      scheme = 'https';
+    }
+    if (scheme === 'rns' && !tabRns) {
       scheme = 'https';
     }
     if (scheme === 'https' && !tabHttps) {
@@ -75,6 +79,7 @@ function initCloneSchemeUrlSelection(parent: Element) {
 
     const isHttps = scheme === 'https';
     const isSsh = scheme === 'ssh';
+    const isRns = scheme === 'rns';
     const isTea = scheme === 'tea';
 
     if (tabHttps) {
@@ -85,6 +90,9 @@ function initCloneSchemeUrlSelection(parent: Element) {
     if (tabSsh) {
       tabSsh.classList.toggle('active', isSsh);
     }
+    if (tabRns) {
+      tabRns.classList.toggle('active', isRns);
+    }
     if (tabTea) {
       tabTea.classList.toggle('active', isTea);
     }
@@ -94,6 +102,8 @@ function initCloneSchemeUrlSelection(parent: Element) {
       tab = tabHttps;
     } else if (isSsh) {
       tab = tabSsh;
+    } else if (isRns) {
+      tab = tabRns;
     } else if (isTea) {
       tab = tabTea;
     }
@@ -121,6 +131,10 @@ function initCloneSchemeUrlSelection(parent: Element) {
   });
   tabSsh?.addEventListener('click', () => {
     localUserSettings.setString('repo-clone-protocol', 'ssh');
+    updateClonePanelUi();
+  });
+  tabRns?.addEventListener('click', () => {
+    localUserSettings.setString('repo-clone-protocol', 'rns');
     updateClonePanelUi();
   });
   tabTea?.addEventListener('click', () => {

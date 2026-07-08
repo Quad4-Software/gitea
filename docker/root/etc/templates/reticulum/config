@@ -1,0 +1,30 @@
+# Reticulum network configuration for Gitea Docker.
+# Edit this file to add interfaces. Gitea reads it via [reticulum] RNS_CONFIG_PATH.
+# See: https://reticulum.network/manual/interfaces.html
+
+[reticulum]
+  share_instance = Yes
+
+[logging]
+  loglevel = 4
+
+[interfaces]
+
+  # Link-local peer discovery on the local network (no router required).
+  [[Default Interface]]
+    type = AutoInterface
+    enabled = Yes
+
+  # Example: connect to a remote rngit/git node over TCP (uncomment and edit).
+  # [[Internet Gateway]]
+  #   type = TCPClientInterface
+  #   enabled = No
+  #   target_host = example.com
+  #   target_port = 4242
+
+  # Example: accept inbound Reticulum connections (uncomment to enable).
+  # [[TCP Server]]
+  #   type = TCPServerInterface
+  #   enabled = No
+  #   listen_ip = 0.0.0.0
+  #   listen_port = 4242

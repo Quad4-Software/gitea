@@ -56,10 +56,14 @@ RUN apk --no-cache add \
     git \
     linux-pam \
     openssh \
+    py3-cryptography \
+    py3-pip \
+    python3 \
     s6 \
     sqlite \
     su-exec \
-    gnupg
+    gnupg \
+    && pip3 install --no-cache-dir --break-system-packages rns
 
 RUN addgroup \
     -S -g 1000 \

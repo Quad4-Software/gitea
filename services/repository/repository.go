@@ -28,6 +28,7 @@ import (
 	"gitea.dev/modules/structs"
 	notify_service "gitea.dev/services/notify"
 	pull_service "gitea.dev/services/pull"
+	reticulum_service "gitea.dev/services/reticulum"
 )
 
 // WebSearchRepository represents a repository returned by web search
@@ -114,16 +115,20 @@ func Init(ctx context.Context) error {
 
 // UpdateRepository updates a repository
 func UpdateRepository(ctx context.Context, repo *repo_model.Repository, visibilityChanged bool) (err error) {
-	return db.WithTx(ctx, func(ctx context.Context) error {
+	err = db.WithTx(ctx, func(ctx context.Context) error {
 		if err = updateRepository(ctx, repo, visibilityChanged); err != nil {
 			return fmt.Errorf("updateRepository: %w", err)
 		}
 		return nil
 	})
+	if err == nil && visibilityChanged {
+		reticulum_service.OnRepositoryUpdated(ctx, repo)
+	}
+	return err
 }
 
 func MakeRepoPrivate(ctx context.Context, repo *repo_model.Repository, private bool) (err error) {
-	return db.WithTx(ctx, func(ctx context.Context) error {
+	err = db.WithTx(ctx, func(ctx context.Context) error {
 		repo.IsPrivate = private
 		if err := repo_model.UpdateRepositoryColsNoAutoTime(ctx, repo, "is_private"); err != nil {
 			return err
@@ -180,6 +185,10 @@ func MakeRepoPrivate(ctx context.Context, repo *repo_model.Repository, private b
 		issue_indexer.UpdateRepoIndexer(ctx, repo.ID)
 		return nil
 	})
+	if err == nil {
+		reticulum_service.OnRepositoryUpdated(ctx, repo)
+	}
+	return err
 }
 
 // GetAttachmentLinkedTypeAndRepoID returns the linked type and repository id of attachment if any

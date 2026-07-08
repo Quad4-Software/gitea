@@ -303,6 +303,27 @@
 		</div>
 
 		<h4 class="ui top attached header">
+			{{ctx.Locale.Tr "admin.reticulum.config_summary"}}
+		</h4>
+		<div class="ui attached table segment">
+			<dl class="admin-dl-horizontal">
+				<dt>{{ctx.Locale.Tr "admin.reticulum.enabled"}}</dt>
+				<dd>{{svg (Iif .Reticulum.Enabled "octicon-check" "octicon-x")}}</dd>
+				<dt>{{ctx.Locale.Tr "admin.reticulum.status.builtin_running"}}</dt>
+				<dd>{{svg (Iif .ReticulumStatus.BuiltinRunning "octicon-check" "octicon-x")}}</dd>
+				<dt>{{ctx.Locale.Tr "admin.reticulum.status.destination_hash"}}</dt>
+				<dd>{{if .Reticulum.DestinationHash}}<code>{{.Reticulum.DestinationHash}}</code>{{else}}-{{end}}</dd>
+				<dt>{{ctx.Locale.Tr "admin.reticulum.rns_config_path"}}</dt>
+				<dd><code>{{.Reticulum.RNSConfigPath}}</code></dd>
+				<div class="divider"></div>
+				<dt class="flex-text-block tw-py-1">{{ctx.Locale.Tr "admin.reticulum.manage"}}</dt>
+				<dd class="tw-py-0">
+					<a class="ui tiny primary button" href="{{AppSubUrl}}/-/admin/reticulum">{{ctx.Locale.Tr "admin.reticulum.title"}}</a>
+				</dd>
+			</dl>
+		</div>
+
+		<h4 class="ui top attached header">
 			{{ctx.Locale.Tr "admin.config.log_config"}}
 		</h4>
 		<div class="ui attached table segment">

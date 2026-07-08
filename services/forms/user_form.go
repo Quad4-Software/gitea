@@ -72,6 +72,14 @@ type InstallForm struct {
 	ReinstallConfirmFirst  bool
 	ReinstallConfirmSecond bool
 	ReinstallConfirmThird  bool
+
+	ReticulumEnabled            bool
+	ReticulumStartBuiltinServer bool
+	ReticulumSyncPermissions    bool
+	ReticulumPublicRead         bool
+	ReticulumPublicWrite        bool
+	ReticulumServeNomadNet      bool
+	ReticulumNodeName           string
 }
 
 // Validate validates the fields

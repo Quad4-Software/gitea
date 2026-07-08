@@ -51,9 +51,19 @@ if [ ! -f ${GITEA_CUSTOM}/conf/app.ini ]; then
     DISABLE_REGISTRATION=${DISABLE_REGISTRATION:-"false"} \
     REQUIRE_SIGNIN_VIEW=${REQUIRE_SIGNIN_VIEW:-"false"} \
     SECRET_KEY=${SECRET_KEY:-""} \
+    RETICULUM_ENABLED=${RETICULUM_ENABLED:-"false"} \
+    RETICULUM_START_BUILTIN_SERVER=${RETICULUM_START_BUILTIN_SERVER:-"false"} \
     envsubst < /etc/templates/app.ini > ${GITEA_CUSTOM}/conf/app.ini
 
     chown ${USER}:git ${GITEA_CUSTOM}/conf/app.ini
+fi
+
+if [ ! -f /data/gitea/reticulum/network/config ]; then
+    mkdir -p /data/gitea/reticulum/network
+    cp /etc/templates/reticulum/config /data/gitea/reticulum/network/config
+    chown -R ${USER}:git /data/gitea/reticulum
+    chmod 700 /data/gitea/reticulum/network
+    chmod 600 /data/gitea/reticulum/network/config
 fi
 
 # Replace app.ini settings with env variables in the form GITEA__SECTION_NAME__KEY_NAME

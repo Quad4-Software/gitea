@@ -1,0 +1,27 @@
+services:
+  gitea:
+    build: .
+    image: gitea-reticulum:local
+    container_name: gitea-reticulum
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__server__DOMAIN=localhost
+      - GITEA__server__ROOT_URL=http://localhost:3000/
+      - GITEA__server__SSH_DOMAIN=localhost
+      - GITEA__security__SECRET_KEY=reticulum-test-secret-key-change-me
+      - GITEA__service__DISABLE_REGISTRATION=false
+      - RETICULUM_ENABLED=true
+      - RETICULUM_START_BUILTIN_SERVER=true
+      - GITEA__reticulum__ENABLED=true
+      - GITEA__reticulum__START_BUILTIN_SERVER=true
+      - GITEA__reticulum__RNS_CONFIG_PATH=/data/gitea/reticulum/network
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+      - "222:22"
+    volumes:
+      - gitea-data:/data
+
+volumes:
+  gitea-data:

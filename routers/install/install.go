@@ -116,6 +116,21 @@ func Install(ctx *context.Context) {
 	form.NoReplyAddress = setting.Service.NoReplyAddress
 	form.PasswordAlgorithm = hash.ConfigHashAlgorithm(setting.PasswordHashAlgo)
 
+	form.ReticulumEnabled = setting.Reticulum.Enabled
+	form.ReticulumStartBuiltinServer = setting.Reticulum.StartBuiltinServer
+	form.ReticulumSyncPermissions = setting.Reticulum.SyncPermissions
+	form.ReticulumPublicRead = setting.Reticulum.PublicRead
+	form.ReticulumPublicWrite = setting.Reticulum.PublicWrite
+	form.ReticulumServeNomadNet = setting.Reticulum.ServeNomadNet
+	form.ReticulumNodeName = setting.Reticulum.NodeName
+	if form.ReticulumNodeName == "" {
+		form.ReticulumNodeName = "Gitea"
+	}
+	if !setting.InstallLock {
+		form.ReticulumSyncPermissions = true
+		form.ReticulumPublicRead = true
+	}
+
 	middleware.AssignForm(form, ctx.Data)
 	ctx.HTML(http.StatusOK, tplInstall)
 }
@@ -399,7 +414,15 @@ func SubmitInstall(ctx *context.Context) {
 
 	cfg.Section("repository.signing").Key("DEFAULT_TRUST_MODEL").SetValue("committer")
 
-	cfg.Section("security").Key("INSTALL_LOCK").SetValue("true")
+	cfg.Section("reticulum").Key("ENABLED").SetValue(strconv.FormatBool(form.ReticulumEnabled))
+	cfg.Section("reticulum").Key("START_BUILTIN_SERVER").SetValue(strconv.FormatBool(form.ReticulumStartBuiltinServer))
+	cfg.Section("reticulum").Key("SYNC_PERMISSIONS").SetValue(strconv.FormatBool(form.ReticulumSyncPermissions))
+	cfg.Section("reticulum").Key("PUBLIC_READ").SetValue(strconv.FormatBool(form.ReticulumPublicRead))
+	cfg.Section("reticulum").Key("PUBLIC_WRITE").SetValue(strconv.FormatBool(form.ReticulumPublicWrite))
+	cfg.Section("reticulum").Key("SERVE_NOMADNET").SetValue(strconv.FormatBool(form.ReticulumServeNomadNet))
+	if form.ReticulumNodeName != "" {
+		cfg.Section("reticulum").Key("NODE_NAME").SetValue(form.ReticulumNodeName)
+	}
 
 	// the internal token could be read from INTERNAL_TOKEN or INTERNAL_TOKEN_URI (the file is guaranteed to be non-empty)
 	// if there is no InternalToken, generate one and save to security.INTERNAL_TOKEN
@@ -448,6 +471,9 @@ func SubmitInstall(ctx *context.Context) {
 	}
 
 	setting.EnvironmentToConfig(cfg, os.Environ())
+
+	// Must be set after environment merge so GITEA__security__INSTALL_LOCK cannot block install completion.
+	cfg.Section("security").Key("INSTALL_LOCK").SetValue("true")
 
 	if err = cfg.SaveTo(setting.CustomConf); err != nil {
 		ctx.RenderWithErrDeprecated(ctx.Tr("install.save_config_failed", err), tplInstall, &form)

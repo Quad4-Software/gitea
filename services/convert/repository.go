@@ -210,6 +210,7 @@ func innerToRepo(ctx context.Context, repo *repo_model.Repository, permissionInR
 		URL:                           repoAPIURL,
 		SSHURL:                        cloneLink.SSH,
 		CloneURL:                      cloneLink.HTTPS,
+		RNSURL:                        cloneLink.RNS,
 		OriginalURL:                   repo.SanitizedOriginalURL(),
 		Website:                       repo.Website,
 		Language:                      language,
