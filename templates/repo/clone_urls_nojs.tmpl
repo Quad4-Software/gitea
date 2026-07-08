@@ -1,0 +1,29 @@
+<div class="nojs-clone-urls">
+	<p class="tw-text-sm tw-text-text-light tw-mb-2">{{ctx.Locale.Tr "repo.clone_urls_nojs"}}</p>
+	<dl class="nojs-clone-url-list">
+		{{if $.CloneButtonShowHTTPS}}
+			<dt>HTTPS</dt>
+			<dd><code>{{$.CloneButtonOriginLink.HTTPS}}</code></dd>
+		{{end}}
+		{{if $.CloneButtonShowSSH}}
+			<dt>SSH</dt>
+			<dd><code>{{$.CloneButtonOriginLink.SSH}}</code></dd>
+		{{end}}
+		{{if $.CloneButtonShowRNS}}
+			<dt>RNS</dt>
+			<dd><code>{{$.CloneButtonOriginLink.RNS}}</code></dd>
+		{{end}}
+		{{if $.CloneButtonOriginLink.Tea}}
+			<dt>Tea CLI</dt>
+			<dd><code>{{$.CloneButtonOriginLink.Tea}}</code></dd>
+		{{end}}
+	</dl>
+	{{if and (not .PageIsWiki) (not $.DisableDownloadSourceArchives) $.RefFullName}}
+		<p class="tw-text-sm tw-text-text-light tw-mt-3 tw-mb-1">{{ctx.Locale.Tr "repo.download_archive"}}</p>
+		<ul class="nojs-clone-download-list">
+			<li><a href="{{$.RepoLink}}/archive/{{PathEscapeSegments $.RefFullName.ShortName}}.zip" rel="nofollow">{{ctx.Locale.Tr "repo.download_zip"}}</a></li>
+			<li><a href="{{$.RepoLink}}/archive/{{PathEscapeSegments $.RefFullName.ShortName}}.tar.gz" rel="nofollow">{{ctx.Locale.Tr "repo.download_tar"}}</a></li>
+			<li><a href="{{$.RepoLink}}/archive/{{PathEscapeSegments $.RefFullName.ShortName}}.bundle" rel="nofollow">{{ctx.Locale.Tr "repo.download_bundle"}}</a></li>
+		</ul>
+	{{end}}
+</div>

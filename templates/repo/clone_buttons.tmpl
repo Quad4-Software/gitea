@@ -1,5 +1,5 @@
 <!-- there is always at least one button (guaranteed by context/repo.go) -->
-<div class="ui action small input clone-buttons-combo">
+<div class="ui action small input clone-buttons-combo requires-js">
 	{{if $.CloneButtonShowHTTPS}}
 		<button class="ui small button repo-clone-https" data-link="{{$.CloneButtonOriginLink.HTTPS}}">HTTPS</button>
 	{{end}}
@@ -14,3 +14,4 @@
 		{{svg "octicon-copy" 14}}
 	</button>
 </div>
+{{template "repo/clone_urls_nojs" .}}

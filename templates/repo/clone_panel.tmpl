@@ -1,4 +1,5 @@
-<button class="ui compact primary button js-btn-clone-panel">
+<!-- there is always at least one button (guaranteed by context/repo.go) -->
+<button class="ui compact primary button js-btn-clone-panel requires-js">
 	{{svg "octicon-code" 16}}
 	<span>{{ctx.Locale.Tr "repo.code"}}</span>
 	{{svg "octicon-triangle-down" 14 "dropdown icon"}}
@@ -49,3 +50,4 @@
 		{{end}}
 	{{end}}
 </div>
+{{template "repo/clone_urls_nojs" .}}
