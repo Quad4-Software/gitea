@@ -7,6 +7,7 @@ import (
 	"bufio"
 	"bytes"
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -47,14 +48,14 @@ func WriteConfig(ctx context.Context) error {
 	var buf bytes.Buffer
 	buf.WriteString("[rngit]\n")
 	if setting.Reticulum.NodeName != "" {
-		buf.WriteString(fmt.Sprintf("node_name = %s\n", setting.Reticulum.NodeName))
+		_, _ = fmt.Fprintf(&buf, "node_name = %s\n", setting.Reticulum.NodeName)
 	}
 	buf.WriteString("announce_interval = 360\n\n")
 
 	buf.WriteString("[repositories]\n")
 	for _, owner := range owners {
 		ownerPath := filepath.Join(setting.RepoRootPath, owner)
-		buf.WriteString(fmt.Sprintf("%s = %s\n", owner, ownerPath))
+		_, _ = fmt.Fprintf(&buf, "%s = %s\n", owner, ownerPath)
 	}
 	buf.WriteString("\n")
 
@@ -124,7 +125,7 @@ func ResolveIdentities(ctx context.Context) (*IdentityInfo, error) {
 		}
 	}
 	if info.RepositoriesDestinationHash == "" {
-		return nil, fmt.Errorf("could not parse repositories destination from rngit output")
+		return nil, errors.New("could not parse repositories destination from rngit output")
 	}
 	return info, nil
 }

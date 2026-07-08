@@ -5,6 +5,7 @@ package reticulum
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"os/exec"
@@ -20,11 +21,11 @@ import (
 // ConfigureRepositoryMirror configures an existing repository to mirror an upstream rns:// URL.
 func ConfigureRepositoryMirror(ctx context.Context, repo *repo_model.Repository, sourceURL string) error {
 	if !setting.Reticulum.Enabled {
-		return fmt.Errorf("reticulum is not enabled")
+		return errors.New("reticulum is not enabled")
 	}
 	sourceURL = strings.TrimSpace(sourceURL)
 	if sourceURL == "" {
-		return fmt.Errorf("mirror source URL is required")
+		return errors.New("mirror source URL is required")
 	}
 	if _, err := reticulum_module.ParseMirrorURL(sourceURL); err != nil {
 		return err
@@ -59,9 +60,7 @@ func SyncRepositoryMirror(ctx context.Context, repo *repo_model.Repository) erro
 		return err
 	}
 	if sourceURL == "" {
-		if sourceURL, err = readMirrorSourceFromGit(ctx, repo.RepoPath()); err != nil {
-			return err
-		}
+		sourceURL = readMirrorSourceFromGit(ctx, repo.RepoPath())
 	}
 	if sourceURL == "" {
 		return fmt.Errorf("repository %s has no RNS mirror source configured", repo.FullName())
@@ -75,14 +74,14 @@ func SyncRepositoryMirror(ctx context.Context, repo *repo_model.Repository) erro
 // MirrorRepositoryFromRNS creates a new mirrored repository using rngit mirror.
 func MirrorRepositoryFromRNS(ctx context.Context, ownerName, repoName, sourceURL string) error {
 	if !setting.Reticulum.Enabled {
-		return fmt.Errorf("reticulum is not enabled")
+		return errors.New("reticulum is not enabled")
 	}
 	if _, err := reticulum_module.ParseMirrorURL(sourceURL); err != nil {
 		return err
 	}
 	targetURL := reticulum_module.ComposeLocalMirrorTarget(ownerName, repoName)
 	if targetURL == "" {
-		return fmt.Errorf("reticulum destination hash is not configured")
+		return errors.New("reticulum destination hash is not configured")
 	}
 
 	args := []string{"mirror", sourceURL, targetURL, "--config", setting.Reticulum.ConfigPath}
@@ -110,14 +109,14 @@ func syncRepositoryMirror(ctx context.Context, repoPath, sourceURL string) error
 	return runGitConfig(ctx, repoPath, "repository.rngit.upstream.sync", strconv.FormatInt(time.Now().Unix(), 10))
 }
 
-func readMirrorSourceFromGit(ctx context.Context, repoPath string) (string, error) {
+func readMirrorSourceFromGit(ctx context.Context, repoPath string) string {
 	cmd := exec.CommandContext(ctx, "git", "config", "--get", "repository.rngit.upstream.source")
 	cmd.Dir = repoPath
 	out, err := cmd.Output()
 	if err != nil {
-		return "", nil
+		return ""
 	}
-	return strings.TrimSpace(string(out)), nil
+	return strings.TrimSpace(string(out))
 }
 
 func runGitConfig(ctx context.Context, repoPath, key, value string) error {

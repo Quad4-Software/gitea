@@ -17,7 +17,7 @@ func TestParseIdentitiesOutput(t *testing.T) {
 	}, "\n")
 
 	info := &IdentityInfo{}
-	for _, line := range strings.Split(stdout, "\n") {
+	for line := range strings.SplitSeq(stdout, "\n") {
 		if matches := repositoriesDestinationPattern.FindStringSubmatch(line); len(matches) == 2 {
 			info.RepositoriesDestinationHash = matches[1]
 		}

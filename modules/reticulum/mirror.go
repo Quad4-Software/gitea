@@ -4,6 +4,7 @@
 package reticulum
 
 import (
+	"errors"
 	"fmt"
 	"net/url"
 	"regexp"
@@ -26,7 +27,7 @@ func ParseMirrorURL(raw string) (*MirrorURLParts, error) {
 	raw = strings.TrimSpace(raw)
 	matches := rnsMirrorURLPattern.FindStringSubmatch(raw)
 	if len(matches) != 4 {
-		return nil, fmt.Errorf("invalid rns mirror URL, expected rns://<hash>/<group>/<repo>")
+		return nil, errors.New("invalid rns mirror URL, expected rns://<hash>/<group>/<repo>")
 	}
 	group, err := url.PathUnescape(matches[2])
 	if err != nil {

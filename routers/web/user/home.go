@@ -111,10 +111,10 @@ func Dashboard(ctx *context.Context) {
 
 	if ctxUser != nil {
 		repoOpts := repo_model.SearchRepoOptions{
-			Actor:     ctx.Doer,
-			OwnerID:   ctxUser.ID,
-			Private:   true,
-			OrderBy:   db.SearchOrderByRecentUpdated,
+			Actor:       ctx.Doer,
+			OwnerID:     ctxUser.ID,
+			Private:     true,
+			OrderBy:     db.SearchOrderByRecentUpdated,
 			ListOptions: db.ListOptions{Page: 1, PageSize: setting.UI.User.RepoPagingNum},
 		}
 		if ctx.Org != nil && ctx.Org.Team != nil {

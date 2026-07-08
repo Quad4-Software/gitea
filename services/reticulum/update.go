@@ -27,9 +27,9 @@ func GetPackageInfo(ctx context.Context) *PackageInfo {
 		}
 	}
 	if out, err := exec.CommandContext(ctx, "pip3", "show", "rns").CombinedOutput(); err == nil {
-		for _, line := range strings.Split(string(out), "\n") {
-			if strings.HasPrefix(line, "Version: ") {
-				info.PipVersion = strings.TrimSpace(strings.TrimPrefix(line, "Version: "))
+		for line := range strings.SplitSeq(string(out), "\n") {
+			if version, ok := strings.CutPrefix(line, "Version: "); ok {
+				info.PipVersion = strings.TrimSpace(version)
 				break
 			}
 		}

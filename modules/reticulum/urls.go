@@ -4,6 +4,7 @@
 package reticulum
 
 import (
+	"errors"
 	"fmt"
 	"net/url"
 	"strings"
@@ -34,11 +35,11 @@ func ComposeCloneURL(ownerName, repoName string) string {
 func NormalizeIdentityHash(hash string) (string, error) {
 	hash = strings.Trim(strings.ToLower(strings.TrimSpace(hash)), "<>")
 	if len(hash) != 32 {
-		return "", fmt.Errorf("reticulum identity hash must be 32 hexadecimal characters")
+		return "", errors.New("reticulum identity hash must be 32 hexadecimal characters")
 	}
 	for _, c := range hash {
 		if (c < '0' || c > '9') && (c < 'a' || c > 'f') {
-			return "", fmt.Errorf("reticulum identity hash must be hexadecimal")
+			return "", errors.New("reticulum identity hash must be hexadecimal")
 		}
 	}
 	return hash, nil
