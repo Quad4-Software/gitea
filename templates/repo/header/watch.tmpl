@@ -1,7 +1,17 @@
 <div class="ui labeled button" {{if not $.IsSigned}}data-tooltip-content="{{ctx.Locale.Tr "repo.watch_guest_user"}}"{{end}}>
 	{{$buttonText := ctx.Locale.Tr "repo.watch"}}
 	{{if $.IsWatchingRepo}}{{$buttonText = ctx.Locale.Tr "repo.unwatch"}}{{end}}
-	<a role="button" class="ui compact small basic button" aria-label="{{$buttonText}}"
+	{{if $.IsSigned}}
+		<noscript>
+			<form class="ui compact small basic button tw-inline" method="post" action="{{$.RepoLink}}/action/{{if $.IsWatchingRepo}}unwatch{{else}}watch{{end}}">
+				<button type="submit" class="ui compact small basic button" aria-label="{{$buttonText}}">
+					{{svg "octicon-eye"}}
+					<span class="not-mobile" aria-hidden="true">{{$buttonText}}</span>
+				</button>
+			</form>
+		</noscript>
+	{{end}}
+	<a role="button" class="ui compact small basic button requires-js" aria-label="{{$buttonText}}"
 		{{if $.IsSigned}}
 			data-fetch-method="post"
 			data-fetch-url="{{$.RepoLink}}/action/{{if $.IsWatchingRepo}}unwatch{{else}}watch{{end}}"

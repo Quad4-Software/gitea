@@ -1,0 +1,21 @@
+<div class="nojs-repo-list ui segment flex-container-sidebar">
+	<h4 class="ui header">{{ctx.Locale.Tr "home.my_repos"}}</h4>
+	{{if .DashboardRepos}}
+		<div class="ui relaxed divided list">
+			{{range .DashboardRepos}}
+				<div class="item">
+					<div class="content">
+						<a class="header" href="{{.Link}}">{{.FullName}}</a>
+						{{if .Description}}<div class="description">{{.Description}}</div>{{end}}
+					</div>
+				</div>
+			{{end}}
+		</div>
+	{{else}}
+		<p>{{ctx.Locale.Tr "home.empty_repo"}}</p>
+	{{end}}
+	<div class="flex-text-block tw-gap-2 tw-mt-2">
+		<a class="ui button" href="{{AppSubUrl}}/repo/create">{{ctx.Locale.Tr "new_repo"}}</a>
+		<a class="ui button" href="{{AppSubUrl}}/explore/repos">{{ctx.Locale.Tr "explore.repos"}}</a>
+	</div>
+</div>

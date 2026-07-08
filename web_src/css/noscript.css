@@ -1,0 +1,22 @@
+/* Progressive enhancement: core pages work without the JS bundle. */
+
+html:not(.js-enabled) .requires-js {
+  display: none !important;
+}
+
+html:not(.js-enabled) [data-fetch-url],
+html:not(.js-enabled) [data-fetch-method] {
+  display: none !important;
+}
+
+html:not(.js-enabled) #dashboard-repo-list {
+  display: none !important;
+}
+
+html:not(.js-enabled) .nojs-repo-list {
+  display: block !important;
+}
+
+.nojs-repo-list {
+  display: none;
+}

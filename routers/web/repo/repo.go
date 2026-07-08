@@ -296,6 +296,14 @@ func handleActionError(ctx *context.Context, err error) {
 	}
 }
 
+func finishRepoActionFragment(ctx *context.Context, tpl templates.TplName) {
+	if ctx.Req.Header.Get("Sec-Fetch-Mode") == "navigate" {
+		ctx.Redirect(ctx.Repo.Repository.Link())
+		return
+	}
+	ctx.HTML(http.StatusOK, tpl)
+}
+
 // RedirectDownload return a file based on the following infos:
 func RedirectDownload(ctx *context.Context) {
 	var (

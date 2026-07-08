@@ -120,3 +120,6 @@ prime/
 
 # A Makefile for custom make targets
 Makefile.local
+
+# Local docker secrets
+.env

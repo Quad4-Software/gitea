@@ -3,25 +3,31 @@ services:
     build: .
     image: gitea-reticulum:local
     container_name: gitea-reticulum
-    environment:
-      - USER_UID=1000
-      - USER_GID=1000
-      - GITEA__server__DOMAIN=localhost
-      - GITEA__server__ROOT_URL=http://localhost:3000/
-      - GITEA__server__SSH_DOMAIN=localhost
-      - GITEA__security__SECRET_KEY=reticulum-test-secret-key-change-me
-      - GITEA__service__DISABLE_REGISTRATION=false
-      - RETICULUM_ENABLED=true
-      - RETICULUM_START_BUILTIN_SERVER=true
-      - GITEA__reticulum__ENABLED=true
-      - GITEA__reticulum__START_BUILTIN_SERVER=true
-      - GITEA__reticulum__RNS_CONFIG_PATH=/data/gitea/reticulum/network
+    init: true
+    env_file:
+      - .env
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
     restart: unless-stopped
     ports:
-      - "3000:3000"
-      - "222:22"
+      - "127.0.0.1:3000:3000"
+      - "127.0.0.1:222:22"
     volumes:
       - gitea-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:3000/api/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
 
 volumes:
   gitea-data:

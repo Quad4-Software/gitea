@@ -6,7 +6,7 @@ export function initAdminReticulumConsole() {
   const consoleEl = document.querySelector<HTMLPreElement>('#reticulum-console');
   if (!consoleEl) return;
 
-  let since = 0;
+  let since = Number.parseInt(consoleEl.dataset.since || '0', 10);
   let polling = false;
 
   const poll = async () => {

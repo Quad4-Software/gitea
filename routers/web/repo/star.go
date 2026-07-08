@@ -4,8 +4,6 @@
 package repo
 
 import (
-	"net/http"
-
 	repo_model "gitea.dev/models/repo"
 	"gitea.dev/modules/templates"
 	"gitea.dev/services/context"
@@ -26,5 +24,5 @@ func ActionStar(ctx *context.Context) {
 		ctx.ServerError("GetRepositoryByName", err)
 		return
 	}
-	ctx.HTML(http.StatusOK, tplStarUnstar)
+	finishRepoActionFragment(ctx, tplStarUnstar)
 }

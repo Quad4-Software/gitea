@@ -23,6 +23,9 @@ func prepareReticulumPage(ctx *context.Context) {
 	ctx.Data["Title"] = ctx.Tr("admin.reticulum.title")
 	ctx.Data["PageIsAdminReticulum"] = true
 	ctx.Data["ReticulumStatus"] = reticulum_service.GetStatus(ctx)
+	logLines, logSince := reticulum_service.GetLogs(0)
+	ctx.Data["ReticulumLogLines"] = logLines
+	ctx.Data["ReticulumLogSince"] = logSince
 }
 
 // Reticulum shows the Reticulum management page.

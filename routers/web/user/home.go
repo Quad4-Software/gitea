@@ -109,6 +109,25 @@ func Dashboard(ctx *context.Context) {
 		"uid":         uid,
 	}
 
+	if ctxUser != nil {
+		repoOpts := repo_model.SearchRepoOptions{
+			Actor:     ctx.Doer,
+			OwnerID:   ctxUser.ID,
+			Private:   true,
+			OrderBy:   db.SearchOrderByRecentUpdated,
+			ListOptions: db.ListOptions{Page: 1, PageSize: setting.UI.User.RepoPagingNum},
+		}
+		if ctx.Org != nil && ctx.Org.Team != nil {
+			repoOpts.TeamID = ctx.Org.Team.ID
+		}
+		repos, _, err := repo_model.SearchRepository(ctx, repoOpts)
+		if err != nil {
+			ctx.ServerError("SearchRepository", err)
+			return
+		}
+		ctx.Data["DashboardRepos"] = repos
+	}
+
 	prepareHeatmapURL(ctx)
 
 	pageSize := setting.UI.User.RepoPagingNum

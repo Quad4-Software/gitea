@@ -3,7 +3,7 @@
 	<div class="ui attached table segment">
 		{{template "admin/reticulum_status" .}}
 		<div class="ui divider"></div>
-		<div class="flex-text-block tw-gap-2 tw-flex-wrap tw-mb-4">
+		<div class="flex-text-block tw-gap-2 tw-flex-wrap tw-mb-4 tw-px-4">
 			<form class="ui form ignore-dirty" method="post" action="{{AppSubUrl}}/-/admin/reticulum/sync">
 				{{.CsrfTokenHtml}}
 				<button class="ui button">{{ctx.Locale.Tr "admin.reticulum.sync"}}</button>
@@ -50,8 +50,13 @@
 
 	<h4 class="ui top attached header">{{ctx.Locale.Tr "admin.reticulum.console_title"}}</h4>
 	<div class="ui attached segment tw-mb-4">
-		<pre id="reticulum-console" class="tw-overflow-auto tw-text-xs tw-font-mono tw-whitespace-pre-wrap tw-max-h-96 tw-bg-black tw-text-green-400 tw-p-3 tw-rounded"></pre>
-		<span class="help">{{ctx.Locale.Tr "admin.reticulum.console_helper"}}</span>
+		<pre id="reticulum-console" class="tw-overflow-auto tw-text-xs tw-font-mono tw-whitespace-pre-wrap tw-max-h-96 tw-bg-black tw-text-green-400 tw-p-3 tw-rounded" data-since="{{.ReticulumLogSince}}">{{range .ReticulumLogLines}}{{.}}
+{{end}}</pre>
+		<noscript>
+			<p class="help tw-mt-2">{{ctx.Locale.Tr "admin.reticulum.console_noscript"}}</p>
+			<a class="ui button" href="{{AppSubUrl}}/-/admin/reticulum">{{ctx.Locale.Tr "admin.reticulum.refresh"}}</a>
+		</noscript>
+		<span class="help requires-js">{{ctx.Locale.Tr "admin.reticulum.console_helper"}}</span>
 	</div>
 
 	<h4 class="ui top attached header">{{ctx.Locale.Tr "admin.reticulum.permissions_title"}}</h4>
@@ -64,40 +69,40 @@
 		<form class="ui form" method="post" action="{{AppSubUrl}}/-/admin/reticulum">
 			{{.CsrfTokenHtml}}
 			<div class="inline field">
-				<div class="ui checkbox">
-					<label>{{ctx.Locale.Tr "admin.reticulum.enabled"}}</label>
+				<label class="gt-checkbox">
 					<input name="enabled" type="checkbox" value="true" {{if .ReticulumForm.Enabled}}checked{{end}}>
-				</div>
+					{{ctx.Locale.Tr "admin.reticulum.enabled"}}
+				</label>
 			</div>
 			<div class="inline field">
-				<div class="ui checkbox">
-					<label>{{ctx.Locale.Tr "admin.reticulum.start_builtin_server"}}</label>
+				<label class="gt-checkbox">
 					<input name="start_builtin_server" type="checkbox" value="true" {{if .ReticulumForm.StartBuiltinServer}}checked{{end}}>
-				</div>
+					{{ctx.Locale.Tr "admin.reticulum.start_builtin_server"}}
+				</label>
 			</div>
 			<div class="inline field">
-				<div class="ui checkbox">
-					<label>{{ctx.Locale.Tr "admin.reticulum.sync_permissions"}}</label>
+				<label class="gt-checkbox">
 					<input name="sync_permissions" type="checkbox" value="true" {{if .ReticulumForm.SyncPermissions}}checked{{end}}>
-				</div>
+					{{ctx.Locale.Tr "admin.reticulum.sync_permissions"}}
+				</label>
 			</div>
 			<div class="inline field">
-				<div class="ui checkbox">
-					<label>{{ctx.Locale.Tr "admin.reticulum.public_read"}}</label>
+				<label class="gt-checkbox">
 					<input name="public_read" type="checkbox" value="true" {{if .ReticulumForm.PublicRead}}checked{{end}}>
-				</div>
+					{{ctx.Locale.Tr "admin.reticulum.public_read"}}
+				</label>
 			</div>
 			<div class="inline field">
-				<div class="ui checkbox">
-					<label>{{ctx.Locale.Tr "admin.reticulum.public_write"}}</label>
+				<label class="gt-checkbox">
 					<input name="public_write" type="checkbox" value="true" {{if .ReticulumForm.PublicWrite}}checked{{end}}>
-				</div>
+					{{ctx.Locale.Tr "admin.reticulum.public_write"}}
+				</label>
 			</div>
 			<div class="inline field">
-				<div class="ui checkbox">
-					<label>{{ctx.Locale.Tr "admin.reticulum.serve_nomadnet"}}</label>
+				<label class="gt-checkbox">
 					<input name="serve_nomadnet" type="checkbox" value="true" {{if .ReticulumForm.ServeNomadNet}}checked{{end}}>
-				</div>
+					{{ctx.Locale.Tr "admin.reticulum.serve_nomadnet"}}
+				</label>
 			</div>
 			<div class="field">
 				<label for="destination_hash">{{ctx.Locale.Tr "admin.reticulum.destination_hash"}}</label>

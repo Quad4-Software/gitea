@@ -17,6 +17,7 @@ on:
       - ".github/actions/go-cache/action.yml"
       - ".github/actions/go-setup/action.yml"
       - ".github/workflows/cache-seeder.yml"
+  workflow_dispatch:
 
 concurrency:
   group: cache-seeder

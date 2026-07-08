@@ -60,4 +60,5 @@ data.organizationId = {{.ContextUser.ID}};
 window.config.pageData.dashboardRepoList = data;
 </script>
 
+{{template "user/dashboard/repolist_noscript" .}}
 <div id="dashboard-repo-list" class="flex-container-sidebar"></div>
